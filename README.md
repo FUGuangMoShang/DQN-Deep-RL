@@ -13,10 +13,22 @@ $$Q_*(s_t,a_t)=\max_πQ_π(s_t,a_t)$$
 
 ### 训练流程
 1. 将一条轨迹划分成n个$(s_t,a_t,r_t,s_{t+1})$四元组，存入**经验回放数组**。
-2. 随机从经验回放数组中取出一个四元组，对DQN正向传播，得到$Q$值：$\hat{q}_j=Q(s_j,a_j;w_{now})\qquad\hat{q}_{j+1}=\max_aQ(s_{j+1},a;w_{now})$
-3. 计算TD目标和TD误差：$\hat{y}_j=r_j+\gamma\hat{q}_{j+1}\qquad \delta_j=\hat{q}_j-\hat{y}_j$
-4. 对DQN反向传播，得到梯度：$g_j=\nabla_wQ(s_j,a_j;w_{now})$
-5. 做梯度下降更新DQN参数：$w_{new}=w_{now}-\alpha \cdot \delta_j \cdot g_j$
+2. 随机从经验回放数组中取出一个四元组，对DQN正向传播，得到$Q$值：
+   
+   $$q_j=Q(s_j,a_j;w_{now})$$
+
+   $$q_{j+1}=\max_aQ(s_{j+1},a;w_{now})$$
+4. 计算TD目标和TD误差：
+
+   $$y_j=r_j+\gamma \cdot q_{j+1}$$
+   
+   $$\delta_j=q_j-y_j$$
+6. 对DQN反向传播，得到梯度：
+  
+   $$g_j=\nabla_wQ(s_j,a_j;w_{now})$$
+9. 做梯度下降更新DQN参数：
+
+   $$w_{new}=w_{now}-\alpha \cdot \delta_j \cdot g_j$$
 
 ## 实现流程
 实现内容：
